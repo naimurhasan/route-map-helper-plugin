@@ -1,4 +1,5 @@
 <?php
+namespace AAALRouteMapHelper;
 /**
  * Plugin Name: Route Map Helper
  * Plugin URI: http://www.github.com/
@@ -7,3 +8,8 @@
  * Author: naimurhasan   
  * Author URI: http://naimurhasan.github.io
  */
+!defined('ABSPATH') && exit;
+
+// add admin page
+require_once( plugin_dir_path( __FILE__  ).'/admin/admin.php' );
+
