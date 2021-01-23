@@ -4,7 +4,7 @@
 
 # TODO
 
-    - Will work on Api based on table.
+    - Work on Api based on table.
 
 # DONE:
 
