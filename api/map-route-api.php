@@ -1,5 +1,9 @@
 <?php
 namespace AAALRouteMapHelper;
+!defined('ABSPATH') && exit;
+
+require_once( plugin_dir_path( __FILE__  ).'/from.php' );
+
 function MYFUNC_API_PAGE_Hooks() {
 
     // full link
@@ -18,7 +22,24 @@ function MYFUNC_API_PAGE_Hooks() {
   
      if ($current_slug == 'map-route-api'){
       status_header(200);     
-      echo "MY API CONTENTS GOES HERE";
+      
+      if(isset($_GET['get'])){
+
+        switch($_GET['get']){
+            case 'from':
+                show_form_list();
+                break;
+            default:
+                echo \json_encode(['message' => 'Welcome to Map Route API']);
+                break;
+        }
+        
+      }else{
+
+        echo \json_encode(['message' => 'Welcome to Map Route API']);
+      
+     }
+
       die();
      }
   
