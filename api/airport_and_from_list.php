@@ -3,6 +3,14 @@ namespace AAALRouteMapHelper;
 !defined('ABSPATH') && exit;
 
 function get_airport_list(){
+
+    // Later I Will Imporove this funciton
+    // I will query column name in databse eg. heathrow_airport
+    // we will replace _ with space
+    // I will Capitalize
+    // I Will return A Capitalized
+    // Airport Name
+
     // Airports Array
     return [
         "Heathrow Airport",

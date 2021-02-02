@@ -10,7 +10,16 @@ function show_price(){
        $_from = $_GET['from'];
        $_to = $_GET['to'];
        
-       $price_string = get_price_text($_from, $_to);
+       //
+       $sorted_location = get_sorted_location($_from, $_to);
+       
+       $price_string = get_price_text($sorted_location['from'], $sorted_location['to']);
+
+       if($price_string == ''){
+        echo \json_encode(['message' => 'Locations doesn\'t match to any route.']);
+        return;
+       }
+
        $basic_car_price_arr = string_to_price($price_string);
        
     //    $prices_for_everycar = get_prices_for_everycar($basic_car_price_arr);
@@ -131,3 +140,20 @@ function get_prices_for_everycar($basic_car_price){
 
 
 // reverse from to if needed.
+function get_sorted_location($from, $to){
+
+    // normally from is non airport lcoation
+    // and to is airport locaion
+
+    // so if from is airport location
+    // we swap the order
+    // or just return in exising
+    if( 
+        in_array( $from, get_airport_list() ) 
+      ){
+        return ['from' => $to, 'to' => $from];
+    }else{
+        return ['from' => $from, 'to' => $to];
+    }
+
+}
