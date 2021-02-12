@@ -1,0 +1,39 @@
+.mf-input-wrapper {
+    margin-bottom: 10px;
+    position: relative;
+}
+
+form[name="route_map_search_form"] {
+    width: 30rem;
+}
+
+.input-results {
+    position: absolute;
+    left: 0;
+    right: 0;
+    z-index: 1;
+}
+
+.input-results>ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.input-results>ul>li {
+    border: 1px solid #ddd;
+    margin-top: -1px;
+    /* Prevent double borders */
+    background-color: #f6f6f6;
+    padding: 5px;
+    text-decoration: none;
+    font-size: 18px;
+    color: black;
+    display: block;
+    cursor: pointer;
+}
+
+
+form[name="route_map_search_form"] {
+    width: 30rem;
+}
