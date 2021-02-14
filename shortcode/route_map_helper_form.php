@@ -26,6 +26,15 @@ function route_map_helper_form_shortcode() {
        <div class="mf-input-wrapper">
             <label class="mf-input-label">To </label>
             <input type="text" id="route_map_input_to" class="mf-input" disabled required placeholder="Please select starting first.">
+            <div class="input-results" id="from_input_results" style="display:none;">
+                <ul>
+                    <?php 
+                        foreach (get_form_array() as $location_name) {
+                            echo "<li>$location_name</li>";
+                        }
+                    ?>
+                </ul>
+            </div>
         </div>
     </form>
     <script>
@@ -38,6 +47,9 @@ function route_map_helper_form_shortcode() {
         var from_input_result = document.getElementById("from_input_results")
         var from_list_ul = document.querySelector('#from_input_results > ul')
         var li = from_list_ul.getElementsByTagName("li");
+
+        var to_input = document.getElementById("route_map_input_to")
+        var isLoadingToList = false
 
         // on from serach text change
         from_input.addEventListener("keyup", function(evt) {
@@ -72,10 +84,6 @@ function route_map_helper_form_shortcode() {
 
         });
 
-        from_input.addEventListener("change", function(evt){
-            console.log(evt.target.value)
-        })
-
         
         for(var i = 0; i<li.length; i++){
             li[i].addEventListener("click", function(evt){
@@ -85,10 +93,43 @@ function route_map_helper_form_shortcode() {
                 from_input_result.style.display = "none"
 
                 // make border green
-                from_input.style.border = "1px solid green"
+                // from_input.style.border = "1px solid green"
+                fetchToInputLits(thisOptionText)
             })
         }
 
+        /****
+        ONE OPTION HAS BEEN CLICKED IN FROM INPUT
+        SO WE NEED TO LOAD TO Locations
+        */
+        function fetchToInputLits(fromText){
+            isLoadingToList = true
+            showLoading()
+        }
+
+        function showLoading(){
+            
+            if(isLoadingToList){
+                var toInputText = to_input.placeholder
+                
+                switch(toInputText){
+                   case 'Loading.':
+                        to_input.placeholder = 'Loading..'
+                    break;
+                    case 'Loading..':
+                        to_input.placeholder = 'Loading...'
+                    break;
+                    default:
+                        to_input.placeholder = 'Loading.'
+                    break;
+                }
+                
+                setTimeout(() => {
+                    showLoading()
+                }, 500);
+
+            }
+        }
     </script>
     <?php
   
