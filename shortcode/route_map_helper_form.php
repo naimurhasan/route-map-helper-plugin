@@ -26,29 +26,36 @@ function route_map_helper_form_shortcode() {
        <div class="mf-input-wrapper">
             <label class="mf-input-label">To </label>
             <input type="text" id="route_map_input_to" class="mf-input" disabled required placeholder="Please select starting first.">
-            <div class="input-results" id="from_input_results" style="display:none;">
+            <div class="input-results" id="to_input_results" style="">
                 <ul>
-                    <?php 
-                        foreach (get_form_array() as $location_name) {
-                            echo "<li>$location_name</li>";
-                        }
-                    ?>
+                    <li>An Airport</li>
                 </ul>
             </div>
         </div>
     </form>
     <script>
+        
+        //add jquery if not added already
+        if(typeof jQuery=='undefined') {
+            var headTag = document.getElementsByTagName("head")[0];
+            var jqTag = document.createElement('script');
+            jqTag.type = 'text/javascript';
+            jqTag.src = 'http://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js';
+            headTag.appendChild(jqTag);
+        }
 
         function clog(object){
             console.log(object)
         }
-
+        const getToListApi = "http://localhost/projects/aa_airpot_link/map-route-api?get=to&from="
         var from_input = document.getElementById("route_map_input_from")
         var from_input_result = document.getElementById("from_input_results")
         var from_list_ul = document.querySelector('#from_input_results > ul')
         var li = from_list_ul.getElementsByTagName("li");
 
         var to_input = document.getElementById("route_map_input_to")
+        var to_list_ul = document.querySelector('#to_input_results > ul')
+
         var isLoadingToList = false
 
         // on from serach text change
@@ -103,8 +110,51 @@ function route_map_helper_form_shortcode() {
         SO WE NEED TO LOAD TO Locations
         */
         function fetchToInputLits(fromText){
+            
+            // show loading
             isLoadingToList = true
             showLoading()
+
+            // send req to back end
+           jQuery.get(getToListApi+fromText, function(data){
+               alert('success')
+            //    console.log(data)
+               var to_locations = JSON.parse(data)
+               
+
+                // make results empty
+                to_list_ul.innerHTML = ""
+
+                // add all the result in input result list
+                to_locations.forEach(function(item){
+                    //    console.log(item)
+                    var li = document.createElement('li');
+                    li.innerText = item
+                    to_list_ul.append(li)
+                })
+
+                isLoadingToList = false
+                // make the to input enabled
+                to_input.placeholder = "Input 'To' location."
+                to_input.disabled = false
+                
+           }).fail(function(jqXHR){
+               alert('fail')
+               
+               isLoadingToList = false
+
+               // Request failed Coudn't fetch request
+               
+               // make to input disabled
+
+               // set message under from input
+
+            //    console.log(jqXHR.responseText)
+            //    console.log()
+            
+           })
+
+
         }
 
         function showLoading(){
@@ -130,6 +180,12 @@ function route_map_helper_form_shortcode() {
 
             }
         }
+
+        // on javascript load
+        jQuery(function() {
+            fetchToInputLits('Heathrow%20Airport')
+        });
+
     </script>
     <?php
   

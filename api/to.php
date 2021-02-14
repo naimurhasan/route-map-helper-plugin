@@ -21,8 +21,8 @@ function show_to_list(){
         }else{
 
             status_header(404);
-            echo "LOCATION DOESN'T EXIST";
-            echo \json_encode(['message' => "LOCATION DOESN'T EXIST"]);
+            // echo "LOCATION DOESN'T EXIST";
+            echo \json_encode(['message' => "Location doesn't exist."]);
 
         }
 
