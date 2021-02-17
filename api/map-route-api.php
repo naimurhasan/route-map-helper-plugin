@@ -2,25 +2,14 @@
 namespace AAALRouteMapHelper;
 !defined('ABSPATH') && exit;
 
+require_once( plugin_dir_path( __FILE__  ).'../functions.php' );
 require_once( plugin_dir_path( __FILE__  ).'/from.php' );
 require_once( plugin_dir_path( __FILE__  ).'/to.php' );
 require_once( plugin_dir_path( __FILE__  ).'/price.php' );
 
 function MYFUNC_API_PAGE_Hooks() {
 
-    // full link
-    $current_url = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
-    // remove wordpress home url
-    $current_slug = \str_replace(site_url().'/', '', $current_url);
-    // Remove query string
-     $current_slug = \str_replace($_SERVER['QUERY_STRING'], '', $current_slug);
-     // remove trailing '?'
-     if(\substr($current_slug, -1) == '?'){
-      $current_slug = \substr($current_slug, 0, -1);
-     }
-     if(\substr($current_slug, -1) == '/'){
-      $current_slug = \substr($current_slug, 0, -1);
-     }
+    $current_slug = get_current_slug();
   
      if ($current_slug == 'map-route-api'){
       status_header(200);  

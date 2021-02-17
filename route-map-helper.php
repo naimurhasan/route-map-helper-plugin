@@ -25,4 +25,5 @@ function myplugin_enqueue_style() {
 }
 add_action( 'wp_enqueue_scripts', 'AAALRouteMapHelper\myplugin_enqueue_style' );
 
-
+// add pages
+require_once( plugin_dir_path( __FILE__  ).'/pages.php' );

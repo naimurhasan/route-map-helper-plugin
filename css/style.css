@@ -33,7 +33,14 @@ form[name="route_map_search_form"] {
     cursor: pointer;
 }
 
+button#get_a_quote_btn {
+    padding: 8px 20px 8px 20px;
+    color: #000000;
+    background-color: #07F6F0;
+    border-style: none;
+    border-radius: 5px 5px 5px 5px;
+}
 
-form[name="route_map_search_form"] {
+#route_map_search_form{
     width: 30rem;
 }
