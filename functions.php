@@ -2,6 +2,8 @@
 namespace AAALRouteMapHelper;
 !defined('ABSPATH') && exit;
 
+define('SELECT_CAR', 'select_car');
+
 function get_current_slug(){
     // full link
     $current_url = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];

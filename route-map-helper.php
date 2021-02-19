@@ -21,7 +21,13 @@ require_once( plugin_dir_path( __FILE__  ).'/shortcode/route_map_helper_form.php
 
 // add css 
 function myplugin_enqueue_style() {
-    wp_enqueue_style( 'style', plugin_dir_url( __FILE__ ).'css/style.css' ); 
+    // plugin custom styles
+    wp_enqueue_style( 'style', plugin_dir_url( __FILE__ ).'css/style.css' );
+
+    // sweetalert2
+    add_action( 'wp_head', function(){
+        echo '<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">';
+    } );
 }
 add_action( 'wp_enqueue_scripts', 'AAALRouteMapHelper\myplugin_enqueue_style' );
 

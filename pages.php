@@ -21,7 +21,7 @@ require_once( plugin_dir_path( __FILE__  ).'/functions.php' );
 
 add_filter( 'template_include', function(  $original_template ) {   
  
-    if(CURRENT_SLUG == 'select_car'){
+    if(CURRENT_SLUG == SELECT_CAR){
         header("HTTP/1.1 200 OK");
         return plugin_dir_path( __FILE__ ) . 'templates/selectcar.php';
     }else{

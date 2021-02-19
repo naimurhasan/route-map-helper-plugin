@@ -35,43 +35,75 @@ function route_map_helper_form_shortcode() {
         <button id="get_a_quote_btn">Get a quote</button>
         </div>
     <script>
-        
-        //add jquery if not added already
+        var headTag = document.getElementsByTagName('head')[0];
+        /**********
+        * Add jquery if not added already
+        *******/
         if(typeof jQuery=='undefined') {
-            var headTag = document.getElementsByTagName("head")[0];
+            
             var jqTag = document.createElement('script');
             jqTag.type = 'text/javascript';
             jqTag.src = 'http://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js';
             headTag.appendChild(jqTag);
         }
 
+        /**********
+        * SWEET ALERT
+        *******/
+        var swalAlert = document.createElement('script');
+        swalAlert.type = 'text/javascript';
+        swalAlert.src = 'https://cdn.jsdelivr.net/npm/sweetalert2@10';
+        headTag.appendChild(swalAlert);
+
+        /**********
+        * POLYFILL
+        *******/
+        var swalPolyfill = document.createElement('script');
+        swalPolyfill.type = 'text/javascript';
+        swalPolyfill.src = 'https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.js';
+        headTag.appendChild(swalPolyfill);
+        
+        /**********
+        * Variables
+        ***********/
         function clog(object){
             console.log(object)
         }
-        const getToListApi = "http://localhost/projects/aa_airpot_link/map-route-api?get=to&from="
-        var from_input = document.getElementById("route_map_input_from")
-        var from_input_result = document.getElementById("from_input_results")
+        const getToListApi = 'http://localhost/projects/aa_airpot_link/map-route-api?get=to&from='
+        var from_input = document.getElementById('route_map_input_from')
+        var from_input_result = document.getElementById('from_input_results')
         var from_list_ul = document.querySelector('#from_input_results > ul')
         var li = from_list_ul.getElementsByTagName("li");
 
-        var to_input_result = document.getElementById("to_input_results")
-        var to_input = document.getElementById("route_map_input_to")
+        var to_input_result = document.getElementById('to_input_results')
+        var to_input = document.getElementById('route_map_input_to')
         var to_list_ul = document.querySelector('#to_input_results > ul')
-        var to_li = to_list_ul.getElementsByTagName("li");
+        var to_li = to_list_ul.getElementsByTagName('li');
+        
+        var get_a_quote_btn = document.getElementById('get_a_quote_btn') 
 
         var isLoadingToList = false
 
-        // on from serach text change
+
+        /**********
+        * on from serach text change
+        ***********/
         from_input.addEventListener("keyup", function(evt) {
 
             filter_dropdown(evt.target.value, from_input_result, li)
 
         });
 
+        /**********
+        * on to serach text change
+        ***********/
         to_input.addEventListener("keyup", function(evt){
             filter_dropdown(evt.target.value, to_input_result, to_li)
         })
 
+        /**********
+        * DROPDOWN UTILITY
+        ***********/
         function filter_dropdown(value, input_result, li_element){
             const searchText = value.toUpperCase() 
 
@@ -102,7 +134,9 @@ function route_map_helper_form_shortcode() {
             }
         }
 
-        // from list click
+        /**********
+        * add from list click event
+        ***********/
         for(var i = 0; i<li.length; i++){
             li[i].addEventListener("click", function(evt){
                 var thisOptionText = evt.target.content || evt.target.innerText
@@ -122,7 +156,7 @@ function route_map_helper_form_shortcode() {
 
         /****
         ONE OPTION HAS BEEN CLICKED IN FROM INPUT
-        SO WE NEED TO LOAD TO Locations
+        SO WE NEED TO LOAD 'TO' Locations
         */
         function fetchToInputLits(fromText){
             
@@ -187,6 +221,9 @@ function route_map_helper_form_shortcode() {
 
         }
 
+        /**********
+        * Loading Animation
+        ***********/
         function showLoading(){
             
             if(isLoadingToList){
@@ -210,6 +247,33 @@ function route_map_helper_form_shortcode() {
 
             }
         }
+
+        /***********************
+        * Get A quote Button Clicked
+        ******************* */
+        get_a_quote_btn.addEventListener('click', function(){
+            
+            // cehck if form emtpy
+            const from_value = from_input.value.trim()
+            const to_value = to_input.value.trim()
+            
+                        
+            if( from_value == '' && to_value == '' ){
+                
+                Swal.fire({
+                        icon: 'error',
+                        title: 'Locations not selected',
+                        text: "Please select 'from' & 'to' locations.",
+                    })
+
+            }
+                // return alert
+
+            // if not empty
+            window.location.href = "<?php echo site_url(); ?>/<?php echo SELECT_CAR; ?>/?from="+encodeURI(from_value)+"&to="+encodeURI(to_value)
+                // forward to next page
+
+        })
 
     </script>
     <?php
