@@ -23,6 +23,12 @@ add_filter( 'template_include', function(  $original_template ) {
  
     if(CURRENT_SLUG == SELECT_CAR){
         header("HTTP/1.1 200 OK");
+        
+        add_filter("pre_get_document_title", function($old_title){
+            return "Select a car - ".get_bloginfo('name');
+        });
+        
+        
         return plugin_dir_path( __FILE__ ) . 'templates/selectcar.php';
     }else{
         return $original_template;

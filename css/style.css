@@ -33,7 +33,7 @@ form[name="route_map_search_form"] {
     cursor: pointer;
 }
 
-button#get_a_quote_btn {
+.btn-action-route-map-api{
     padding: 8px 20px 8px 20px;
     color: #000000;
     background-color: #07F6F0;
@@ -44,3 +44,4 @@ button#get_a_quote_btn {
 #route_map_search_form{
     width: 30rem;
 }
+

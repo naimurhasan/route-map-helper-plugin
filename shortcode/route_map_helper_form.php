@@ -32,7 +32,7 @@ function route_map_helper_form_shortcode() {
                 </ul>
             </div>
         </div>
-        <button id="get_a_quote_btn">Get a quote</button>
+        <button id="get_a_quote_btn" class="btn-action-route-map-api">Get a quote</button>
         </div>
     <script>
         var headTag = document.getElementsByTagName('head')[0];

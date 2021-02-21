@@ -5,6 +5,11 @@
 
 ## Wordpress Plugin
 
+### Installation
+    - Download this repo
+    - Copy 'secret.php.example' as 'secret.php'
+    - Put your mapbox api key
+
 # TODO
 
     - Work on Api based on table.

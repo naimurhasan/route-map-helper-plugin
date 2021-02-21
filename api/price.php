@@ -88,7 +88,7 @@ function string_to_price($price_string){
 // return price for all four cars
 // Input ['s' => 1, 'r' => 2]
 // return [car1 => [s=>50, r=>100], car2 => ..]
-function get_prices_for_everycar($basic_car_price){
+function get_prices_for_everycar($basic_car_price, $display = true){
     // Note: Price will be added as following
     // Salon = $basic_car_price
     // Estate Car: S- £6/ R-12 . 
@@ -126,9 +126,15 @@ function get_prices_for_everycar($basic_car_price){
 
     }
 
-    echo "<PRE>";
-    print_r($prices_for_everycar);
-    echo "</PRE>";
+    if($display){
+        echo "<PRE>";
+        print_r($prices_for_everycar);
+        echo "</PRE>";
+    }else{
+        
+        return $prices_for_everycar;
+    }
+    
 
     
 }
