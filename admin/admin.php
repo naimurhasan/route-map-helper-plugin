@@ -3,6 +3,8 @@ namespace AAALRouteMapHelper;
 
 !defined('ABSPATH') && exit;
 
+
+
 // Add Bootstrap 
 add_action('admin_head', 'AAALRouteMapHelper\add_bootstrap');
 
@@ -15,7 +17,23 @@ function register_my_custom_menu_page() {
 }
 
 function admin_page_view(){
-    include_once( plugin_dir_path( __FILE__  ).'/views/page.php' );
+
+    //Get the active tab from the $_GET param
+    $default_tab = null;
+    $tab = isset($_GET['tab']) ? $_GET['tab'] : $default_tab;
+
+    ?>
+    <nav class="nav-tab-wrapper">
+    <a href="?page=map-route-helper" class="nav-tab <?php if($tab===null):?>nav-tab-active<?php endif; ?>" >Pricing Table</a>      
+    <a href="?page=map-route-helper&tab=setting" class="nav-tab <?php if($tab==='setting'):?>nav-tab-active<?php endif; ?>">Setting</a>
+    </nav>
+    <?php
+    if($tab==='setting'){
+        include_once( plugin_dir_path( __FILE__  ).'/views/setting-page.php' );
+    }else{
+        include_once( plugin_dir_path( __FILE__  ).'/views/home-page.php' );
+    }
+    
 }
 
 

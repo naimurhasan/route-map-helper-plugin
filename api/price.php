@@ -4,33 +4,39 @@ namespace AAALRouteMapHelper;
 
 
 function show_price(){
+    if( isset($_GET['from']) && isset($_GET['to']) ){
+        $_from = $_GET['from'];
+        $_to = $_GET['to'];
 
-    if(isset($_GET['from']) && isset($_GET['to'])){
-
-       $_from = $_GET['from'];
-       $_to = $_GET['to'];
-       
-       //
-       $sorted_location = get_sorted_location($_from, $_to);
-       
-       $price_string = get_price_text($sorted_location['from'], $sorted_location['to']);
-
-       if($price_string == ''){
-        echo \json_encode(['message' => 'Locations doesn\'t match to any route.']);
-        return;
-       }
-
-       $basic_car_price_arr = string_to_price($price_string);
-       
-    //    $prices_for_everycar = get_prices_for_everycar($basic_car_price_arr);
-       get_prices_for_everycar($basic_car_price_arr);
-
-       
+        $get_price = get_price($_from, $_to);
+        
+        if($get_price == null){
+            echo \json_encode(['message' => 'Locations doesn\'t match to any route.']);
+        }else{
+            echo \json_encode($get_price, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+        }
 
     }else{
         echo \json_encode(['message' => 'Please select from and to location.']);
     }
+}
 
+function get_price($from, $to){
+       
+       $sorted_location = get_sorted_location($from, $to);
+       
+       $price_string = get_price_text($sorted_location['from'], $sorted_location['to']);
+
+       if($price_string == ''){
+           return null;
+       }
+
+       $basic_car_price_arr = string_to_price($price_string);
+       
+       $prices_for_every_car = get_prices_for_everycar($basic_car_price_arr);
+
+       return $prices_for_every_car;
+       
 }
 
 function get_price_text($from, $to){
@@ -88,28 +94,32 @@ function string_to_price($price_string){
 // return price for all four cars
 // Input ['s' => 1, 'r' => 2]
 // return [car1 => [s=>50, r=>100], car2 => ..]
-function get_prices_for_everycar($basic_car_price, $display = true){
+function get_prices_for_everycar($basic_car_price){
     // Note: Price will be added as following
     // Salon = $basic_car_price
     // Estate Car: S- £6/ R-12 . 
     // MPV: S-£15/R-£30. 
     // Executive: S-£15/ R-£30	
     $cars_and_addtions = [
-        'Salon' => [
+        'Saloon' => [
                 's' => 0,
                 'r' => 0,
+                'details' => "4 passengers 2 suitcases 1 hand luggage", 
         ],
         'Estate' => [
                 's' => 6,
                 'r' => 12,
-        ],
-        'MPV' => [
-                's' => 15,
-                'r' => 30,
+                'details' => "4 passengers 4 suitcases 1 hand luggage",
         ],
         'Executive Saloon' => [
-                's' => 15,
-                'r' => 30,
+            's' => 15,
+            'r' => 30,
+            'details' => "4 passengers 2 suitcases 1 hand luggage",
+        ],
+        'MPV' => [
+            's' => 15,
+            'r' => 30,
+            'details' => "5 passengers 5 suitcases 1 hand luggage",
         ],
     ];
 
@@ -122,19 +132,12 @@ function get_prices_for_everycar($basic_car_price, $display = true){
             // With Basic Car Price
             's' => $basic_car_price['s']+$cars_and_addtions[$car_name]['s'],
             'r' => $basic_car_price['r']+$cars_and_addtions[$car_name]['r'],
+            'car_details' => $cars_and_addtions[$car_name]['details'],
         ];
 
     }
 
-    if($display){
-        echo "<PRE>";
-        print_r($prices_for_everycar);
-        echo "</PRE>";
-    }else{
-        
-        return $prices_for_everycar;
-    }
-    
+    return $prices_for_everycar;
 
     
 }

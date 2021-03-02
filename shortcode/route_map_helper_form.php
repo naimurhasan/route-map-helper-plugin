@@ -6,6 +6,13 @@ namespace AAALRouteMapHelper;
 require_once( plugin_dir_path( __FILE__  ).'../api/from.php' );
 
 function route_map_helper_form_shortcode() {
+
+    $route_product_id = get_option(ROUTE_MAP_OPTION_PRODUCT);
+
+    if($route_product_id == null){
+      return "<font color='red'><strong>Please set a product id in:<br/>wp-admin >> route-map-helper >> setting</strong></font>";
+    }
+
     ob_start();
     ?> 
     <!-- your contents/html/(maybe in separate file to include) code etc -->

@@ -1,10 +1,12 @@
 <?php
 /*
- * Template Name: Custom Full Width
+ * Template Name: Select Car
  * description: >-
-  Page template without sidebar
+  Page template for select car url
  */
 require_once( plugin_dir_path( __FILE__  ).'../secret.php' );
+require_once( plugin_dir_path( __FILE__  ).'../api/price.php' );
+require_once( plugin_dir_path( __FILE__  ).'../functions.php' );
 
 wp_enqueue_style( 'leaflet', plugin_dir_url( __FILE__ ).'../css/leaflet/leaflet.css' );
 wp_enqueue_script( 'leaflet', plugin_dir_url( __FILE__ ).'../css/leaflet/leaflet.js' );
@@ -53,11 +55,14 @@ span.location-type {
     display: grid;
     place-content: center;
 }
+.car-options-section {
+    padding: 5px;
+}
+
 </style>
 
 <div id="primary" class="site-content">
   <div id="content" role="main">
-
     <div class="select-car-container">
       <div class="select-car-form-wrapper">
           <!-- Map Here -->
@@ -66,19 +71,29 @@ span.location-type {
             <span class="location-type">From: </span><?php echo esc_html($_REQUEST['from']); ?>
             <span class="location-type">To: </span><?php echo esc_html($_REQUEST['to']); ?>
           </div>
-          <div class="car-options-section">
-            <div class="car-option">
-              <div class="car-image-description">
-                <img class="select-car-form-option-img" src="http://localhost/projects/aa_airpot_link/wp-content/uploads/2020/12/v_saloon.png">
-                <p>4 passengers
-                   2 suitcases
-                   1 hand luggage</p>
+          
+            <?php
+              foreach ($prices_for_route as $key => $value) {
+                ?>
+                <div class="car-options-section">
+                  <div class="car-option">
+                  <div class="car-image-description">
+                    <img class="select-car-form-option-img" src="<?php echo plugin_dir_url(__DIR__).'images/'.str_replace(' ','', esc_html($key)).".png"; ?>">
+                    <p>
+                      <?php echo $key;?>
+                      <br />
+                      <?php echo $value['car_details']; ?></p>
+                  </div>
+                  <div class="car-select-action">
+                      <label class="btn-action-route-map-api">Single £<?php echo esc_html($value['s']); ?> <input name="vehicle-way" class="vehicle-way" data-car="<?php echo esc_html($key); ?>" data-route="s" type="radio" name="car-select" /></label>
+                      <label class="btn-action-route-map-api">Return £<?php echo esc_html($value['r']); ?> <input name="vehicle-way" class="vehicle-way" data-car="<?php echo esc_html($key); ?>" data-route="r" type="radio" name="car-select" /></label>
+                  </div>
+                  </div>
               </div>
-              <div class="car-select-action">
-                  <label class="btn-action-route-map-api">Single £60 <input type="radio" name="car-select" /></label>
-                  <label class="btn-action-route-map-api">Return £194 <input type="radio" name="car-select" /></label>
-              </div>
-            </div>
+                <?php
+              }
+            ?>
+            
           </div>
       </div>
     </div>
@@ -112,10 +127,10 @@ span.location-type {
         }
       ).addTo(mymap);
 
-      // mymap._handlers.forEach(function(handler) {
-      //   handler.disable();
-      // });
-      // document.getElementById('mapid').style.cursor='default';
+      mymap._handlers.forEach(function(handler) {
+        handler.disable();
+      });
+      document.getElementById('mapid').style.cursor='default';
       
       var marker1 = marker2  = null;
 
@@ -150,9 +165,6 @@ span.location-type {
 
       }
 
-      
-
-
       // set markert 1
       async function setMarker1(furl){
         marker1 = await getCoordinatesFromUrl(furl)
@@ -165,16 +177,15 @@ span.location-type {
       async function getCoordinatesFromUrl(fecthURL){
         try{
           // console.log(fecthURL)
-          console.log(fecthURL)
+          // console.log(fecthURL)
           const Fresponse = await fetch(fecthURL)
           const data = await Fresponse.json();
-          console.log(data.features[0].geometry.coordinates)
+          // console.log(data.features[0].geometry.coordinates)
           const marker = data.features[0].geometry.coordinates
           return [marker[1], marker[0]] 
         }catch(error){/* console.log(error) */}
       }
 
-      
 
       function getParameterByName(name, url = window.location.href) {
           name = name.replace(/[\[\]]/g, '\\$&');
@@ -184,6 +195,26 @@ span.location-type {
           if (!results[2]) return '';
           return decodeURIComponent(results[2].replace(/\+/g, ' '));
       }
+      
+
+      /** Add Event For Each Selection Button */
+      var select_car_btns = document.getElementsByClassName('vehicle-way')
+      for(var btnI = 0; btnI < select_car_btns.length; btnI++){
+          select_car_btns[btnI].addEventListener('click', function(evt){
+              console.log('radio clicked')
+              console.log(evt.target.dataset.car)
+              console.log(evt.target.dataset.route)
+
+              console.log(param_from)
+              console.log(param_to)
+
+              window.location.href = "../<?php echo PASSANGER_INFO; ?>/?from="+param_from+
+              "&to="+param_to+
+              "&car="+evt.target.dataset.car+
+              "&route="+evt.target.dataset.route
+          })
+      }
+
 </script>
 
 <?php get_footer(); ?>

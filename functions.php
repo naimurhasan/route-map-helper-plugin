@@ -3,6 +3,8 @@ namespace AAALRouteMapHelper;
 !defined('ABSPATH') && exit;
 
 define('SELECT_CAR', 'select_car');
+define('PASSANGER_INFO', 'passenger-info');
+define('ROUTE_MAP_OPTION_PRODUCT', 'route-map-option-product');
 
 function get_current_slug(){
     // full link
