@@ -9,13 +9,10 @@ require_once( plugin_dir_path( __FILE__  ).'/api/price.php' );
 \define('CURRENT_SLUG',  get_current_slug());
 
 
-/**********
- * 
- * SELECT CAR PAGE
- * 
- * ************ */
+
 
 add_filter( 'template_include', function(  $original_template ) {
+    
     
     // SELECT CAR
     if( CURRENT_SLUG == SELECT_CAR && isset($_GET['from']) && isset($_GET['to']) ){
@@ -30,25 +27,19 @@ add_filter( 'template_include', function(  $original_template ) {
             return $original_template;
         }
         
-        // set response status
-        header("HTTP/1.1 200 OK");
-
-        // set page title
-        add_filter("pre_get_document_title", function($old_title){
-            return "Select a car - ".get_bloginfo('name');
-        });
-
+        
+        setSuccessHeader('Select a car');
         
         // show page
         include_once(plugin_dir_path( __FILE__ ) . 'templates/selectcar.php');
         return;
-    }
-
-    // INPUT PASSANGER INFO
-    
-    if( CURRENT_SLUG == PASSANGER_INFO  ){
-        // set response status
-        header("HTTP/1.1 200 OK");
+    }else if( CURRENT_SLUG == PASSANGER_INFO && isset($_GET['from']) && isset($_GET['to']) && isset($_GET['car']) && isset($_GET['route']) ){
+        /**********
+         * 
+         * SELECT CAR PAGE
+         * 
+         * ************ */
+        setSuccessHeader('Passenger Info');
 
         // show page
         include_once(plugin_dir_path( __FILE__ ) . 'templates/passanger-info.php');
@@ -57,3 +48,5 @@ add_filter( 'template_include', function(  $original_template ) {
 
     return $original_template;
 });
+
+

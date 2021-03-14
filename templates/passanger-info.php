@@ -53,25 +53,102 @@ span.location-type {
     padding: 5px;
 }
 
+.column-half {
+    display: inline-block;
+    width: calc(50% - 2px);
+}
+
+.form-acitons {
+  text-align:right;
+}
+
 </style>
 
 <div id="primary" class="site-content">
   <div id="content" role="main">
     <div class="select-car-container">
       <div class="select-car-form-wrapper">
-          
+         <form>
           <!-- Map Here -->
           <div class="locations-titles">
             <span class="location-type">From: </span><?php echo esc_html($_REQUEST['from']); ?>
             <span class="location-type">To: </span><?php echo esc_html($_REQUEST['to']); ?>
           </div>
-          
-          <h2>Your details: </h2>
-            
+          <div class="locations-titles">
+            <span class="location-type">Car: </span><?php echo esc_html($_REQUEST['car']); ?>
           </div>
-      </div>
-    </div>
-    
+          <br />
+          <h3 class="form-section-title">Your details: </h3>
+          
+          <div class="mf-input-wrapper">
+            <label class="mf-input-label">Head Passenger Full Name </label>
+            <input type="text" name="head-passenger-name" required class="mf-input" required placeholder="...">
+          </div>
+
+          <div class="mf-input-wrapper">
+            <label class="mf-input-label">Passenger Mobile </label>
+            <input type="text" name="passenger-mobile" required class="mf-input" required placeholder="...">
+          </div>
+
+          <div class="column-half">
+            <div class="mf-input-wrapper">
+              <label class="mf-input-label">Passengers </label>
+              <select name="passenger-count">
+                <option value="1">1 Passenger</option>
+                <option value="2">2 Passenger</option>
+                <option value="3">3 Passenger</option>
+                <option value="4">4 Passenger</option>
+                <option value="5">4 Passenger</option>
+              </select>
+            </div>
+          </div> <!-- column half -->
+          <div class="column-half">
+            <div class="mf-input-wrapper">
+              <label class="mf-input-label">Luggage </label>
+              <select name="luggage">
+                <option value="1">None</option>
+                <option value="2">Hand Luggage</option>
+                <option value="3">Suitcases</option>
+              </select>
+            </div>
+          </div>
+          <br />
+          <h3 class="form-section-title">Journey details: </h3>
+          
+          <div class="column-half">
+            <div class="mf-input-wrapper">
+              <label class="mf-input-label">Flight Number</label>
+              <input type="text" name="flight-number" required class="mf-input" required placeholder="...">
+            </div>
+          </div>
+
+          <div class="column-half">
+            <div class="mf-input-wrapper">
+              <label class="mf-input-label">Flight Origin</label>
+              <input type="text" name="flight-number" required class="mf-input" required placeholder="...">
+            </div>
+          </div>
+
+          <div class="mf-input-wrapper">
+          <label class="mf-input-label">Meet & Greet Service </label>
+              <select name="meet-service">
+                <option value="False">No (+£0) I will call my driver</option>
+                <option value="True">Yes (+£5) meet me on arrival</option>
+              </select>
+          </div>
+
+          <div class="mf-input-wrapper">
+            <label class="mf-input-label">Arrival Date & Time </label>
+            <input type="datetime-local" name="Arrival Date and Time" required class="mf-input" required placeholder="...">
+          </div>
+
+          <div class="form-acitons">
+            <button id="get_a_quote_btn" class="btn-action-route-map-api">Go to Checkout</button>
+          </div>
+          
+          </form>
+      </div><!-- .form wrapper -->
+    </div><!-- .container -->
   </div><!-- #content -->
 </div><!-- #primary -->
 
