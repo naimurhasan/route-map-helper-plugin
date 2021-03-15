@@ -39,6 +39,7 @@ function get_price($from, $to){
        
 }
 
+// / return S-45/R-80 
 function get_price_text($from, $to){
 
     $column_name = get_column_name_for_airport($to);

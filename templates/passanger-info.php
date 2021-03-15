@@ -4,8 +4,39 @@
  * description: >-
   Page template for select car url
  */
+require_once( plugin_dir_path( __FILE__  ).'../api/price.php' );
 
-get_header(); 
+get_header();
+
+if(isset($_POST['head-passenger-name'])){
+
+  echo "<PRE>";
+  print_r($_REQUEST);
+  echo "</PRE>";
+
+  $price = getCartPrice();
+  
+  // if price empty then stop
+  if($price == ''){
+    echo '<center><h2>Route not found. Try Again Later.</h2><a class="btn-action-route-map-api" href="'.site_url().'">Try Again.</button></center>';
+    get_footer(); 
+    return;
+  }
+
+  echo "CAR PRICE: ".$price;
+
+}
+
+function getCartPrice(){
+    $prices_text_array = AAALRouteMapHelper\get_price($_GET['from'], $_GET['to']);
+    $price = $prices_text_array[ $_GET['car'] ][ $_GET['route'] ];
+
+    if(isset($_POST['meet-service']) && $_POST['meet-service'] == 'True'){
+      $price += 5;
+    }
+
+    return $price;
+  }
 
 ?>
 
@@ -68,7 +99,15 @@ span.location-type {
   <div id="content" role="main">
     <div class="select-car-container">
       <div class="select-car-form-wrapper">
-         <form>
+         <form method="POST" action="./?from=<?php 
+            echo rawurlencode($_GET['from']);
+         ?>&to=<?php 
+            echo rawurlencode($_GET['to']); 
+          ?>&car=<?php 
+            echo rawurlencode($_GET['car']);
+          ?>&route=<?php 
+            echo rawurlencode($_GET['route']);
+          ?>">
           <!-- Map Here -->
           <div class="locations-titles">
             <span class="location-type">From: </span><?php echo esc_html($_REQUEST['from']); ?>
