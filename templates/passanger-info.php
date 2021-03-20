@@ -6,13 +6,8 @@
  */
 require_once( plugin_dir_path( __FILE__  ).'../api/price.php' );
 
-get_header();
 
 if(isset($_POST['head-passenger-name'])){
-
-  echo "<PRE>";
-  print_r($_REQUEST);
-  echo "</PRE>";
 
   $price = getCartPrice();
   
@@ -23,9 +18,41 @@ if(isset($_POST['head-passenger-name'])){
     return;
   }
 
-  echo "CAR PRICE: ".$price;
+  // echo "<pre>";
+  // print_r($_REQUEST);
+  // echo "</pre>";
+
+  global $woocommerce;
+  $woocommerce->cart->empty_cart(); //чистим
+  $custom_price = $price;  //$price - переменная с ценой 
+  $product_id = get_option(ROUTE_MAP_OPTION_PRODUCT);   //id любого товара
+  $quantity = 1;      //кол-во
+  $cart_item_data = array(
+    'custom_price' => $custom_price,
+    'from' => $_REQUEST['from'],
+    'to' => $_REQUEST['to'],
+    'car' => $_REQUEST['car'],
+    'route' => $_REQUEST['route'],
+    'head-passenger-name' => $_REQUEST['head-passenger-name'],
+    'passenger-mobile' => $_REQUEST['passenger-mobile'],
+    'passenger-count' => $_REQUEST['passenger-count'],
+    'luggage' => $_REQUEST['luggage'],
+    'flight-number' => $_REQUEST['flight-number'],
+    'flight-origin' => $_REQUEST['flight-origin'],
+    'meet-service' => $_REQUEST['meet-service'],
+    'arrival-time' => $_REQUEST['arrival-time'],
+  );   
+  $woocommerce->cart->add_to_cart( $product_id, $quantity, $variation_id, $variation, $cart_item_data );
+  $woocommerce->cart->calculate_totals();
+  $woocommerce->cart->set_session();
+  $woocommerce->cart->maybe_set_cart_cookies();
+
+
+  header('location: '.wc_get_checkout_url());
 
 }
+
+get_header();
 
 function getCartPrice(){
     $prices_text_array = AAALRouteMapHelper\get_price($_GET['from'], $_GET['to']);
@@ -137,7 +164,7 @@ span.location-type {
                 <option value="2">2 Passenger</option>
                 <option value="3">3 Passenger</option>
                 <option value="4">4 Passenger</option>
-                <option value="5">4 Passenger</option>
+                <option value="5">5 Passenger</option>
               </select>
             </div>
           </div> <!-- column half -->
@@ -164,7 +191,7 @@ span.location-type {
           <div class="column-half">
             <div class="mf-input-wrapper">
               <label class="mf-input-label">Flight Origin</label>
-              <input type="text" name="flight-number" required class="mf-input" required placeholder="...">
+              <input type="text" name="flight-origin" required class="mf-input" required placeholder="...">
             </div>
           </div>
 
@@ -178,7 +205,7 @@ span.location-type {
 
           <div class="mf-input-wrapper">
             <label class="mf-input-label">Arrival Date & Time </label>
-            <input type="datetime-local" name="Arrival Date and Time" required class="mf-input" required placeholder="...">
+            <input type="datetime-local" name="arrival-time" required class="mf-input" required placeholder="...">
           </div>
 
           <div class="form-acitons">

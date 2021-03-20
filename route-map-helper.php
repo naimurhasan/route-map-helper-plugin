@@ -10,6 +10,9 @@ namespace AAALRouteMapHelper;
  */
 !defined('ABSPATH') && exit;
 
+// common functions
+require_once( plugin_dir_path( __FILE__  ).'/functions.php' );
+
 // add admin page
 require_once( plugin_dir_path( __FILE__  ).'/admin/admin.php' );
 
