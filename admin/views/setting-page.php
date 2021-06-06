@@ -6,33 +6,29 @@
     
     <?php
 
-
+    // update product id
     if(isset($_POST['product_id'])){
-      $route_product_id = get_option(ROUTE_MAP_OPTION_PRODUCT);
+      // $route_product_id = get_option(ROUTE_MAP_OPTION_PRODUCT);
 
-      if($route_product_id == null){
         
-        // ROUTE_MAP_OPTION_PRODUCT
-        add_option(ROUTE_MAP_OPTION_PRODUCT, $_POST['product_id']);
-        
-      }else{
-        
-        update_option(ROUTE_MAP_OPTION_PRODUCT, $_POST['product_id']);
+      update_option(ROUTE_MAP_OPTION_PRODUCT, $_POST['product_id']);
 
-      }
       
     }
 
+    // update price per km
+    if(isset($_POST['price_per_km'])){
+      echo "PRICE PER";
+      $price_per_km = get_option(ROUTE_MAP_PRICE_PER_KM);
+      echo $price_per_km;
 
-    /* Query Database And Show the Table */
-    // global $wpdb;
-    // $result = $wpdb->get_results (
-    //   "
-    //   SELECT * 
-    //   FROM aa_route_pricing
-    //   "
-    //   );
-    // print_r($result[0]->_from);
+      if($price_per_km == null){
+      
+        update_option(ROUTE_MAP_PRICE_PER_KM, $_POST['price_per_km']);
+
+      }
+    }
+
     ?>
 
 <div class="container-fluid">
@@ -43,6 +39,11 @@
             <div  class="form-text">
               This product will get added to route form cart.
             </div>
+        </div>
+        <div class="mb-2">
+          <label>Price Per Km (for salon car): </label>
+          <input class="form-control" required type="number" name="price_per_km" value="<?php echo get_option(ROUTE_MAP_PRICE_PER_KM); ?>">
+            
         </div>
         <input type="submit" class="btn btn-primary">
       </form>

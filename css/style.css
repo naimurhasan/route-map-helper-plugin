@@ -40,7 +40,3 @@ form[name="route_map_search_form"] {
     border-style: none;
     border-radius: 5px 5px 5px 5px;
 }
-
-#route_map_search_form{
-    width: 30rem;
-}

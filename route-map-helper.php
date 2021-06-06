@@ -21,6 +21,7 @@ require_once( plugin_dir_path( __FILE__  ).'/api/map-route-api.php' );
 
 // shortcode
 require_once( plugin_dir_path( __FILE__  ).'/shortcode/route_map_helper_form.php' );
+require_once( plugin_dir_path( __FILE__  ).'/shortcode/route_map_per_km.php' );
 
 // add css 
 function myplugin_enqueue_style() {

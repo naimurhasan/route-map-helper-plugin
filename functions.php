@@ -5,6 +5,7 @@ namespace AAALRouteMapHelper;
 define('SELECT_CAR', 'select_car');
 define('PASSANGER_INFO', 'passenger-info');
 define('ROUTE_MAP_OPTION_PRODUCT', 'route-map-option-product');
+define('ROUTE_MAP_PRICE_PER_KM', 'route-map-price-per-km');
 
 /******
  * Return First url param or Slug Ater removing site address

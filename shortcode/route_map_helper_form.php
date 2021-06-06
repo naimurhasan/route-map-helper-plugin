@@ -19,7 +19,7 @@ function route_map_helper_form_shortcode() {
     <div id="route_map_search_form">
         <div class="mf-input-wrapper">
             <label class="mf-input-label">From </label>
-            <input type="text" id="route_map_input_from" class="mf-input" required placeholder="e.g. DA1 or Heathrow Airport">
+            <input type="text" id="route_map_input_from" autocomplete="off" class="mf-input" required placeholder="e.g. DA1 or Heathrow Airport">
             <div class="input-results" id="from_input_results" style="display:none;">
                 <ul>
                     <?php 
@@ -32,7 +32,7 @@ function route_map_helper_form_shortcode() {
         </div>
        <div class="mf-input-wrapper">
             <label class="mf-input-label">To </label>
-            <input type="text" id="route_map_input_to" class="mf-input" disabled required placeholder="Please select starting first.">
+            <input type="text" id="route_map_input_to" autocomplete="off" class="mf-input" disabled required placeholder="Please select starting first.">
             <div class="input-results" id="to_input_results" style="display:none;">
                 <ul>
                     
@@ -76,7 +76,7 @@ function route_map_helper_form_shortcode() {
         function clog(object){
             console.log(object)
         }
-        const getToListApi = 'http://localhost/projects/aa_airpot_link/map-route-api?get=to&from='
+        const getToListApi = '<?php echo site_url(); ?>/map-route-api?get=to&from='
         var from_input = document.getElementById('route_map_input_from')
         var from_input_result = document.getElementById('from_input_results')
         var from_list_ul = document.querySelector('#from_input_results > ul')
