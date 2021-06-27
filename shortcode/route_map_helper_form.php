@@ -54,6 +54,8 @@ function route_map_helper_form_shortcode() {
             headTag.appendChild(jqTag);
         }
 
+        
+
         /**********
         * SWEET ALERT
         *******/
@@ -274,6 +276,8 @@ function route_map_helper_form_shortcode() {
                     })
 
             }
+
+            return;
                 // return alert
 
             // if not empty
