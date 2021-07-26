@@ -39,7 +39,6 @@ button.btn.btn-info {    background-color: #ffca09; border: 0;  padding: 5px 25p
 
 <div id="map"></div>
 <div class="mt-2"><button class="btn btn-info" id="map-confirm-button">Confirm</button></div>
- 
 
 
 <script>
@@ -100,30 +99,70 @@ button.btn.btn-info {    background-color: #ffca09; border: 0;  padding: 5px 25p
         let originCoordinates = origin.geometry?.coordinates?.toString()
         
         
-        if(typeof(originCoordinates) == 'undefined'){
-            Swal.fire({
-                icon: 'error',
-                title:"Invalid input.",
-                text: "Please select a correct 'from' location.",
-            })
-            return  
-        }
+        // if(typeof(originCoordinates) == 'undefined'){
+        //     Swal.fire({
+        //         icon: 'error',
+        //         title:"Invalid input.",
+        //         text: "Please select a correct 'from' location.",
+        //     })
+        //     return  
+        // }
         
 
-        // check if getdestinatin
-        let destination = mapBoxDirection.getDestination()
-        let destinationString = jQuery('#mapbox-directions-destination-input div input')?.val()
-        let destinationCoordinates = destination.geometry?.coordinates?.toString()
+        // // check if getdestinatin
+        // let destination = mapBoxDirection.getDestination()
+        // let destinationString = jQuery('#mapbox-directions-destination-input div input')?.val()
+        // let destinationCoordinates = destination.geometry?.coordinates?.toString()
         
-        if(typeof(destinationCoordinates) == 'undefined'){
-            Swal.fire({
-                icon: 'error',
-                title:"Invalid input.",
-                text: "Please select a correct 'to' location.",
-            })
-            return
-        }
-        
+        // if(typeof(destinationCoordinates) == 'undefined'){
+        //     Swal.fire({
+        //         icon: 'error',
+        //         title:"Invalid input.",
+        //         text: "Please select a correct 'to' location.",
+        //     })
+        //     return
+        // }
+
+        var form = document.createElement('form');
+        form.setAttribute('action', '<?php echo site_url(); ?>/<?php echo SELECT_CAR_PER_MILE_ROUTE; ?>');
+        form.setAttribute('method', 'POST');
+ 
+        // from text
+        var input1 = document.createElement('input');
+        input1.setAttribute('name', 'from_text');
+        input1.setAttribute('value', 'London Heathrow')
+
+        // from coordinates
+        var input2 = document.createElement('input');
+        input2.setAttribute('name', 'from_coordinate');
+        input2.setAttribute('value', [123123, 23213])
+
+        // to text 
+        var input3 = document.createElement('input');
+        input3.setAttribute('name', 'to_text');
+        input3.setAttribute('value', 'SE07')
+
+        // to coordinates 
+        var input4 = document.createElement('input');
+        input4.setAttribute('name', 'to_coordinates');
+        input4.setAttribute('value', [55555, 55555])
+
+
+        // to coordinates 
+        var input5 = document.createElement('input');
+        input5.setAttribute('name', 'distance');
+        input5.setAttribute('value', 20)
+
+
+        form.appendChild(input1);
+        form.appendChild(input2);
+        form.appendChild(input3);
+        form.appendChild(input4);
+        form.appendChild(input5);
+        form.style.display = "none";
+        document.body.appendChild(form);
+
+        form.submit();
     
     })
 

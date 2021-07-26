@@ -274,10 +274,10 @@ function route_map_helper_form_shortcode() {
                         title: 'Locations not selected',
                         text: "Please select 'from' & 'to' locations.",
                     })
-
+                    return;
             }
 
-            return;
+            
                 // return alert
 
             // if not empty

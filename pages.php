@@ -44,6 +44,23 @@ add_filter( 'template_include', function(  $original_template ) {
         // show page
         include_once(plugin_dir_path( __FILE__ ) . 'templates/passanger-info.php');
         return;
+    }else if( CURRENT_SLUG == SELECT_CAR_PER_MILE_ROUTE ){
+        /**********
+         * 
+         * SELECT CAR PAGE
+         * 
+         * ************ */
+        setSuccessHeader('Select Car');
+
+        // per mile
+        $price_per_km = get_option(ROUTE_MAP_PRICE_PER_KM);
+               
+        $basic_car_price_arr = ['s' => $price_per_km, 'r'=> $price_per_km*2];
+        $prices_for_route = get_prices_for_everycar($basic_car_price_arr);
+        
+        // show page
+        include_once(plugin_dir_path( __FILE__ ) . 'templates/selectcar-for-coordinates.php');
+        return;
     }
 
     return $original_template;
