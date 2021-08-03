@@ -65,14 +65,11 @@ span.location-type {
   <div id="content" role="main">
     <div class="select-car-container">
       <div class="select-car-form-wrapper">
-          <div>
-            <?php print_r($_REQUEST); ?>
-          </div>
           <!-- Map Here -->
           <div id="mapid"></div>
           <div class="locations-titles">
-            <span class="location-type">From: </span><?php echo esc_html($_REQUEST['from']); ?>
-            <span class="location-type">To: </span><?php echo esc_html($_REQUEST['to']); ?>
+            <span class="location-type">From: </span><?php echo esc_html($_REQUEST['from_text']); ?>
+            <span class="location-type">To: </span><?php echo esc_html($_REQUEST['to_text']); ?>
           </div>
           
             <?php
@@ -135,17 +132,18 @@ span.location-type {
       });
       document.getElementById('mapid').style.cursor='default';
       
-      var marker1 = marker2  = null;
+      var marker1 = [<?php echo esc_html($_REQUEST['from_coordinate']); ?>]
+      var marker2  = [<?php echo esc_html($_REQUEST['to_coordinates']); ?>];
 
       // marker 1
-      const param_from = encodeURI( getParameterByName('from') )
-      const param_to = encodeURI( getParameterByName('to') )
+      const param_from = "<?php echo esc_html($_REQUEST['from_text']); ?>"
+      const param_to = "<?php echo esc_html($_REQUEST['to_text']); ?>"
       
-      let map_api_fetch_url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${param_from}.json?access_token=${mapbox_access_token}&limit=1&bbox=${bbox}`;
-      setMarker1(map_api_fetch_url)
+      // let map_api_fetch_url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${param_from}.json?access_token=${mapbox_access_token}&limit=1&bbox=${bbox}`;
+      // setMarker1(map_api_fetch_url)
       
-      map_api_fetch_url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${param_to}.json?access_token=${mapbox_access_token}&limit=1&bbox=${bbox}`;
-      setMarker2(map_api_fetch_url)
+      // map_api_fetch_url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${param_to}.json?access_token=${mapbox_access_token}&limit=1&bbox=${bbox}`;
+      // setMarker2(map_api_fetch_url)
       
       
       // wait for api & draw maker on finihs
@@ -153,41 +151,18 @@ span.location-type {
 
       function waitAndDrawPoint(){
         
-        if (marker1 == undefined || marker2 == undefined){
-          setTimeout(() => {
-            waitAndDrawPoint();
-          }, 500);
-        }else{
+        
+          
           var markers = [
             L.marker(marker1).addTo(mymap),
             L.marker(marker2).addTo(mymap),
           ];
 
           mymap.fitBounds([marker1, marker2]);
-        }
-
+        
       }
 
-      // set markert 1
-      async function setMarker1(furl){
-        marker1 = await getCoordinatesFromUrl(furl)
-      }
-
-      async function setMarker2(furl){
-        marker2 = await getCoordinatesFromUrl(furl)
-      }
-
-      async function getCoordinatesFromUrl(fecthURL){
-        try{
-          // console.log(fecthURL)
-          // console.log(fecthURL)
-          const Fresponse = await fetch(fecthURL)
-          const data = await Fresponse.json();
-          // console.log(data.features[0].geometry.coordinates)
-          const marker = data.features[0].geometry.coordinates
-          return [marker[1], marker[0]] 
-        }catch(error){/* console.log(error) */}
-      }
+      
 
 
       function getParameterByName(name, url = window.location.href) {
@@ -208,13 +183,57 @@ span.location-type {
               console.log(evt.target.dataset.car)
               console.log(evt.target.dataset.route)
 
-              console.log(param_from)
-              console.log(param_to)
+              var form = document.createElement('form');
+              form.setAttribute('action', '<?php echo site_url(); ?>/<?php echo PASSANGER_INFO_PER_KM; ?>/');
+              form.setAttribute('method', 'POST');
 
-              window.location.href = "../<?php echo PASSANGER_INFO; ?>/?from="+param_from+
-              "&to="+param_to+
-              "&car="+evt.target.dataset.car+
-              "&route="+evt.target.dataset.route
+              // from text
+              var input1 = document.createElement('input');
+              input1.setAttribute('name', 'from_text');
+              input1.setAttribute('value', "<?php echo addslashes($_REQUEST['from_text']); ?>")
+
+              // from coordinates
+              var input2 = document.createElement('input');
+              input2.setAttribute('name', 'from_coordinate');
+              input2.setAttribute('value', "<?php echo addslashes($_REQUEST['from_coordinate']); ?>")
+
+              // to text 
+              var input3 = document.createElement('input');
+              input3.setAttribute('name', 'to_text');
+              input3.setAttribute('value', "<?php echo addslashes($_REQUEST['to_text']); ?>")
+
+              // to coordinates 
+              var input4 = document.createElement('input');
+              input4.setAttribute('name', 'to_coordinates');
+              input4.setAttribute('value', "<?php echo addslashes($_REQUEST['to_coordinates']); ?>")
+
+
+              // distance
+              var input5 = document.createElement('input');
+              input5.setAttribute('name', 'distance');
+              input5.setAttribute('value', "<?php echo addslashes($_REQUEST['distance']); ?>")
+
+              // car
+              var input6 = document.createElement('input');
+              input6.setAttribute('name', 'car');
+              input6.setAttribute('value', evt.target.dataset.car);
+
+              // route
+              var input7 = document.createElement('input');
+              input7.setAttribute('name', 'route');
+              input7.setAttribute('value', evt.target.dataset.route);
+
+              form.appendChild(input1);
+              form.appendChild(input2);
+              form.appendChild(input3);
+              form.appendChild(input4);
+              form.appendChild(input5);
+              form.appendChild(input6);
+              form.appendChild(input7);
+              form.style.display = "none";
+              document.body.appendChild(form);
+
+              form.submit();
           })
       }
 

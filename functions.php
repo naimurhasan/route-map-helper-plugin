@@ -4,6 +4,7 @@ namespace AAALRouteMapHelper;
 
 define('SELECT_CAR', 'select_car');
 define('PASSANGER_INFO', 'passenger-info');
+define('PASSANGER_INFO_PER_KM', 'passenger-info-for-coordinates');
 define('ROUTE_MAP_OPTION_PRODUCT', 'route-map-option-product');
 define('ROUTE_MAP_PRICE_PER_KM', 'route-map-price-per-km'); // used as option db
 define('SELECT_CAR_PER_MILE_ROUTE', 'selectcar-for-coordinates');

@@ -13,7 +13,8 @@
 # TODO
 
     - Work on Api based on table.
-
+    - Make the form submit dynamic data
+    - USD to POUND
 # DONE:
 
     - Created Table Fetching in Admin Side

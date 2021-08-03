@@ -44,6 +44,17 @@ add_filter( 'template_include', function(  $original_template ) {
         // show page
         include_once(plugin_dir_path( __FILE__ ) . 'templates/passanger-info.php');
         return;
+    }else if( CURRENT_SLUG == PASSANGER_INFO_PER_KM ){
+        /**********
+         * 
+         * SELECT CAR PAGE
+         * 
+         * ************ */
+        setSuccessHeader('Passenger Info');
+
+        // show page
+        include_once(plugin_dir_path( __FILE__ ) . 'templates/passanger-info-coordinates.php');
+        return;
     }else if( CURRENT_SLUG == SELECT_CAR_PER_MILE_ROUTE ){
         /**********
          * 
@@ -54,7 +65,7 @@ add_filter( 'template_include', function(  $original_template ) {
 
         // per mile
         $price_per_km = get_option(ROUTE_MAP_PRICE_PER_KM);
-               
+        $price_per_km = $price_per_km*$_REQUEST['distance'];
         $basic_car_price_arr = ['s' => $price_per_km, 'r'=> $price_per_km*2];
         $prices_for_route = get_prices_for_everycar($basic_car_price_arr);
         

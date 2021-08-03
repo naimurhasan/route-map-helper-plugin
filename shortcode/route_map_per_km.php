@@ -124,7 +124,7 @@ button.btn.btn-info {    background-color: #ffca09; border: 0;  padding: 5px 25p
         // }
 
         var form = document.createElement('form');
-        form.setAttribute('action', '<?php echo site_url(); ?>/<?php echo SELECT_CAR_PER_MILE_ROUTE; ?>');
+        form.setAttribute('action', '<?php echo site_url(); ?>/<?php echo SELECT_CAR_PER_MILE_ROUTE; ?>/');
         form.setAttribute('method', 'POST');
  
         // from text
@@ -135,7 +135,7 @@ button.btn.btn-info {    background-color: #ffca09; border: 0;  padding: 5px 25p
         // from coordinates
         var input2 = document.createElement('input');
         input2.setAttribute('name', 'from_coordinate');
-        input2.setAttribute('value', [123123, 23213])
+        input2.setAttribute('value', [23.81416242975206, 90.36786767464254])
 
         // to text 
         var input3 = document.createElement('input');
@@ -145,10 +145,10 @@ button.btn.btn-info {    background-color: #ffca09; border: 0;  padding: 5px 25p
         // to coordinates 
         var input4 = document.createElement('input');
         input4.setAttribute('name', 'to_coordinates');
-        input4.setAttribute('value', [55555, 55555])
+        input4.setAttribute('value', [23.807370008011716, 90.36383363261177])
 
 
-        // to coordinates 
+        // distance
         var input5 = document.createElement('input');
         input5.setAttribute('name', 'distance');
         input5.setAttribute('value', 20)
