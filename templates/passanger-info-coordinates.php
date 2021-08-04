@@ -22,6 +22,10 @@ if(isset($_POST['head-passenger-name'])){
   // print_r($_REQUEST);
   // echo "</pre>";
 
+  // from_coordinate
+  // to_coordinates
+  // distance
+
   global $woocommerce;
   $woocommerce->cart->empty_cart(); //чистим
   $custom_price = $price;  //$price - переменная с ценой 
@@ -29,8 +33,8 @@ if(isset($_POST['head-passenger-name'])){
   $quantity = 1;      //кол-во
   $cart_item_data = array(
     'custom_price' => $custom_price,
-    'from' => $_REQUEST['from'],
-    'to' => $_REQUEST['to'],
+    'from' => $_REQUEST['from_text'],
+    'to' => $_REQUEST['to_text'],
     'car' => $_REQUEST['car'],
     'route' => $_REQUEST['route'],
     'head-passenger-name' => $_REQUEST['head-passenger-name'],
@@ -48,7 +52,7 @@ if(isset($_POST['head-passenger-name'])){
   $woocommerce->cart->maybe_set_cart_cookies();
 
 
-  header('location: '.wc_get_checkout_url());
+  // header('location: '.wc_get_checkout_url());
 
 }
 
@@ -135,8 +139,8 @@ span.location-type {
           ?>">
           <!-- Map Here -->
           <div class="locations-titles">
-            <span class="location-type">From: </span><?php echo esc_html($_REQUEST['from']); ?>
-            <span class="location-type">To: </span><?php echo esc_html($_REQUEST['to']); ?>
+            <span class="location-type">From: </span><?php echo esc_html($_REQUEST['from_text']); ?>
+            <span class="location-type">To: </span><?php echo esc_html($_REQUEST['to_text']); ?>
           </div>
           <div class="locations-titles">
             <span class="location-type">Car: </span><?php echo esc_html($_REQUEST['car']); ?>
