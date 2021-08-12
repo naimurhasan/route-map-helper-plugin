@@ -246,7 +246,7 @@ function display_cart_item_custom_meta_data( $item_data, $cart_item ) {
 add_action( 'woocommerce_before_order_itemmeta', 'AAALRouteMapHelper\so_32457241_before_order_itemmeta', 10, 3 );
 function so_32457241_before_order_itemmeta( $item_id, $item, $_product ){
     if($item->get_meta('From Coordinate') != "" && $item->get_meta('To Coordinate') != ""){
-        echo "<br/><br/><a href=\"https://www.google.co.ls/maps/dir/".$item->get_meta('From Coordinate')."/".$item->get_meta('To Coordinate')."/\">View Client Route in Google Map</a>";
+        echo "<br/><br/><a target=\"_blank\" href=\"https://www.google.co.ls/maps/dir/".$item->get_meta('From Coordinate')."/".$item->get_meta('To Coordinate')."/\">View Client Route in Google Map</a>";
     }
     // echo '<pre>';
     // echo ($item->get_meta('From Coordinate')) == "";
