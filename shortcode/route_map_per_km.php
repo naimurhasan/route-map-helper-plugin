@@ -60,6 +60,12 @@ button.btn.btn-info {    background-color: #ffca09; border: 0;  padding: 5px 25p
         mapBoxDirection,
         'top-left'
     );
+    var selected_route_distance;
+    mapBoxDirection.on('route', function(evt){
+        if(evt['route'].length > 0){
+            selected_route_distance = 0.000621*evt['route'][0]['distance']
+        }
+    })
 
     var headTag = document.getElementsByTagName('head')[0];
     /**********
@@ -88,10 +94,12 @@ button.btn.btn-info {    background-color: #ffca09; border: 0;  padding: 5px 25p
     swalAlert.type = 'text/javascript';
     swalAlert.src = 'https://cdn.jsdelivr.net/npm/sweetalert2@10';
     headTag.appendChild(swalAlert);
-
     
 
+   
+
     jQuery('#map-confirm-button').on('click', function(evt){
+
         
         // check if getOrigin
         let origin = mapBoxDirection.getOrigin()
@@ -99,29 +107,40 @@ button.btn.btn-info {    background-color: #ffca09; border: 0;  padding: 5px 25p
         let originCoordinates = origin.geometry?.coordinates?.toString()
         
         
-        // if(typeof(originCoordinates) == 'undefined'){
-        //     Swal.fire({
-        //         icon: 'error',
-        //         title:"Invalid input.",
-        //         text: "Please select a correct 'from' location.",
-        //     })
-        //     return  
-        // }
+        if(typeof(originCoordinates) == 'undefined'){
+            Swal.fire({
+                icon: 'error',
+                title:"Invalid input.",
+                text: "Please select a correct 'from' location.",
+            })
+            return  
+        }
         
 
-        // // check if getdestinatin
-        // let destination = mapBoxDirection.getDestination()
-        // let destinationString = jQuery('#mapbox-directions-destination-input div input')?.val()
-        // let destinationCoordinates = destination.geometry?.coordinates?.toString()
+        // check if getdestinatin
+        let destination = mapBoxDirection.getDestination()
+        let destinationString = jQuery('#mapbox-directions-destination-input div input')?.val()
+        let destinationCoordinates = destination.geometry?.coordinates?.toString()
         
-        // if(typeof(destinationCoordinates) == 'undefined'){
-        //     Swal.fire({
-        //         icon: 'error',
-        //         title:"Invalid input.",
-        //         text: "Please select a correct 'to' location.",
-        //     })
-        //     return
-        // }
+        if(typeof(destinationCoordinates) == 'undefined'){
+            Swal.fire({
+                icon: 'error',
+                title:"Invalid input.",
+                text: "Please select a correct 'to' location.",
+            })
+            return
+        }
+
+
+        // check distance has digit
+        if(typeof selected_route_distance === "undefined"){
+            Swal.fire({
+                icon: 'error',
+                title:"Invalid route.",
+                text: "Please select a valid car travel route.",
+            })
+            return
+        }
 
         var form = document.createElement('form');
         form.setAttribute('action', '<?php echo site_url(); ?>/<?php echo SELECT_CAR_PER_MILE_ROUTE; ?>/');
@@ -130,28 +149,28 @@ button.btn.btn-info {    background-color: #ffca09; border: 0;  padding: 5px 25p
         // from text
         var input1 = document.createElement('input');
         input1.setAttribute('name', 'from_text');
-        input1.setAttribute('value', 'London Heathrow')
+        input1.setAttribute('value', originString)
 
         // from coordinates
         var input2 = document.createElement('input');
         input2.setAttribute('name', 'from_coordinate');
-        input2.setAttribute('value', [23.81416242975206, 90.36786767464254])
+        input2.setAttribute('value', originCoordinates)
 
         // to text 
         var input3 = document.createElement('input');
         input3.setAttribute('name', 'to_text');
-        input3.setAttribute('value', 'SE07')
+        input3.setAttribute('value', destinationString)
 
         // to coordinates 
         var input4 = document.createElement('input');
         input4.setAttribute('name', 'to_coordinate');
-        input4.setAttribute('value', [23.807370008011716, 90.36383363261177])
+        input4.setAttribute('value', destinationCoordinates)
 
 
         // distance
         var input5 = document.createElement('input');
         input5.setAttribute('name', 'distance');
-        input5.setAttribute('value', 20)
+        input5.setAttribute('value', selected_route_distance)
 
 
         form.appendChild(input1);
@@ -159,7 +178,7 @@ button.btn.btn-info {    background-color: #ffca09; border: 0;  padding: 5px 25p
         form.appendChild(input3);
         form.appendChild(input4);
         form.appendChild(input5);
-        form.style.display = "none";
+        // form.style.display = "none";
         document.body.appendChild(form);
 
         form.submit();

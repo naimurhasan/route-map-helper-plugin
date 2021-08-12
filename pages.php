@@ -23,7 +23,9 @@ add_filter( 'template_include', function(  $original_template ) {
 
         $prices_for_route =  get_price($_from, $_to);
         
+        
         if($prices_for_route == null){
+            
             return $original_template;
         }
         
@@ -66,6 +68,7 @@ add_filter( 'template_include', function(  $original_template ) {
         // per mile
         $price_per_km = get_option(ROUTE_MAP_PRICE_PER_KM);
         $price_per_km = $price_per_km*$_REQUEST['distance'];
+        $price_per_km = round($price_per_km, 2);
         $basic_car_price_arr = ['s' => $price_per_km, 'r'=> $price_per_km*2];
         $prices_for_route = get_prices_for_everycar($basic_car_price_arr);
         
