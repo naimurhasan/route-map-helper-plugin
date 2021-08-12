@@ -41,7 +41,7 @@
             </div>
         </div>
         <div class="mb-2">
-          <label>Price Per Km (for salon car): </label>
+          <label>Price Per Mile (for salon car): </label>
           <input class="form-control" required type="number" name="price_per_km" value="<?php echo get_option(ROUTE_MAP_PRICE_PER_KM); ?>">
             
         </div>

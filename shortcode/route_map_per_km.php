@@ -16,7 +16,7 @@ function route_map_per_km_form_shortcode(){
     $price_per_km = get_option(ROUTE_MAP_PRICE_PER_KM);
 
     if($price_per_km == null || $price_per_km == ''){
-      return "<font color='red'><strong>Please set price per Km:<br/>wp-admin >> route-map-helper >> setting</strong></font>";
+      return "<font color='red'><strong>Please set price per Mile:<br/>wp-admin >> route-map-helper >> setting</strong></font>";
     }
 
     ob_start();
