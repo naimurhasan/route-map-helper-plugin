@@ -104,7 +104,8 @@ button.btn.btn-info {    background-color: #ffca09; border: 0;  padding: 5px 25p
         // check if getOrigin
         let origin = mapBoxDirection.getOrigin()
         let originString = jQuery('#mapbox-directions-origin-input div input')?.val()
-        let originCoordinates = origin.geometry?.coordinates?.toString()
+        let originCoordinates = origin.geometry?.coordinates?.reverse()?.toString()
+        
         
         
         if(typeof(originCoordinates) == 'undefined'){
@@ -120,7 +121,8 @@ button.btn.btn-info {    background-color: #ffca09; border: 0;  padding: 5px 25p
         // check if getdestinatin
         let destination = mapBoxDirection.getDestination()
         let destinationString = jQuery('#mapbox-directions-destination-input div input')?.val()
-        let destinationCoordinates = destination.geometry?.coordinates?.toString()
+        let destinationCoordinates = destination.geometry?.coordinates?.reverse()?.toString()
+        
         
         if(typeof(destinationCoordinates) == 'undefined'){
             Swal.fire({
@@ -178,7 +180,7 @@ button.btn.btn-info {    background-color: #ffca09; border: 0;  padding: 5px 25p
         form.appendChild(input3);
         form.appendChild(input4);
         form.appendChild(input5);
-        // form.style.display = "none";
+        form.style.display = "none";
         document.body.appendChild(form);
 
         form.submit();
