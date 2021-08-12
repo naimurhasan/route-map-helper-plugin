@@ -37,6 +37,9 @@ if(isset($_POST['head-passenger-name'])){
     'to' => $_REQUEST['to_text'],
     'car' => $_REQUEST['car'],
     'route' => $_REQUEST['route'],
+    'from_coordinate' => $_REQUEST['from_coordinate'],
+    'to_coordinate' => $_REQUEST['to_coordinate'],
+    'distance' => $_REQUEST['distance'],
     'head-passenger-name' => $_REQUEST['head-passenger-name'],
     'passenger-mobile' => $_REQUEST['passenger-mobile'],
     'passenger-count' => $_REQUEST['passenger-count'],
@@ -52,14 +55,26 @@ if(isset($_POST['head-passenger-name'])){
   $woocommerce->cart->maybe_set_cart_cookies();
 
 
-  // header('location: '.wc_get_checkout_url());
+  header('location: '.wc_get_checkout_url());
 
 }
 
 get_header();
 
 function getCartPrice(){
-    return 200;
+  $price = '';
+  $price_per_km = get_option(ROUTE_MAP_PRICE_PER_KM);
+  $price_per_km = $price_per_km*$_REQUEST['distance'];
+  $basic_car_price_arr = ['s' => $price_per_km, 'r'=> $price_per_km*2];
+  $prices_for_route = AAALRouteMapHelper\get_prices_for_everycar($basic_car_price_arr);
+  
+  $price = $prices_for_route[$_REQUEST['car']][$_REQUEST['route']];
+
+  if($_REQUEST['meet-service']){
+    $price += 5;
+  }
+
+  return $price;
   }
 
 ?>
@@ -122,21 +137,16 @@ span.location-type {
 <div id="primary" class="site-content">
   <div id="content" role="main">
     <div class="select-car-container">
-      <pre>
-      <?php
-        print_r($_REQUEST); 
-      ?>
-      </pre>
       <div class="select-car-form-wrapper">
-         <form method="POST" action="./?from=<?php 
-            echo rawurlencode($_GET['from']);
-         ?>&to=<?php 
-            echo rawurlencode($_GET['to']); 
-          ?>&car=<?php 
-            echo rawurlencode($_GET['car']);
-          ?>&route=<?php 
-            echo rawurlencode($_GET['route']);
-          ?>">
+         <form method="POST" action="./">
+          <!-- data from previous step -->
+          <input type="hidden" name="from_text" value="<?php echo esc_html($_REQUEST['from_text']); ?>" />
+          <input type="hidden" name="to_text" value="<?php echo esc_html($_REQUEST['to_text']); ?>" />
+          <input type="hidden" name="car" value="<?php echo esc_html($_REQUEST['car']); ?>" />
+          <input type="hidden" name="route" value="<?php echo esc_html($_REQUEST['route']); ?>" />
+          <input type="hidden" name="distance" value="<?php echo esc_html($_REQUEST['distance']); ?>" />
+          <input type="hidden" name="from_coordinate" value="<?php echo esc_html($_REQUEST['from_coordinate']); ?>" />
+          <input type="hidden" name="to_coordinate" value="<?php echo esc_html($_REQUEST['to_coordinate']); ?>" />
           <!-- Map Here -->
           <div class="locations-titles">
             <span class="location-type">From: </span><?php echo esc_html($_REQUEST['from_text']); ?>

@@ -80,6 +80,22 @@ function save_cart_item_custom_meta_as_order_item_meta( $item, $cart_item_key, $
         $item->update_meta_data( 'Route', $values['route'] == 's' ? 'Single' : 'Round' );
     }
 
+    if ( isset($values['from_coordinate']) ) {
+        $item->update_meta_data( 'From Coordinate', $values['from_coordinate'] );
+    }
+
+    if ( isset($values['from_coordinate']) ) {
+        $item->update_meta_data( 'From Coordinate', $values['from_coordinate'] );
+    }
+
+    if ( isset($values['to_coordinate']) ) {
+        $item->update_meta_data( 'To Coordinate', $values['to_coordinate'] );
+    }
+    
+    if ( isset($values['distance']) ) {
+        $item->update_meta_data( 'Distance', $values['distance'] );
+    }
+
     if ( isset($values['head-passenger-name']) ) {
         $item->update_meta_data( 'Head Passenger Name', $values['head-passenger-name'] );
     }
@@ -98,6 +114,10 @@ function save_cart_item_custom_meta_as_order_item_meta( $item, $cart_item_key, $
     
     if ( isset($values['flight-number'])  ) {
         $item->update_meta_data( 'Flight Number', $values['flight-number'] );
+    }
+
+    if ( isset($values['flight-number'])  ) {
+        $item->update_meta_data( 'Flight Origin', $values['flight-origin'] );
     }
 
     if ( isset($values['meet-service']) ) {
@@ -149,6 +169,13 @@ function display_cart_item_custom_meta_data( $item_data, $cart_item ) {
         $item_data[] = array(
                     'key'       => 'route',
                     'value'     => $cart_item['route'] == 's' ? 'Single' : 'Round',
+                );
+    }
+
+    if(isset($cart_item['distance'])){
+        $item_data[] = array(
+                    'key'       => 'distance',
+                    'value'     => $cart_item['distance']." Mile". ($cart_item['distance'] > 1 ? 's' : ''),
                 );
     }
 
@@ -214,3 +241,14 @@ function display_cart_item_custom_meta_data( $item_data, $cart_item ) {
 //     print_r($order);
 //     echo "</pre>";
 // }
+
+// WOOCOMMERCE ADMIN PAGE ORDER
+add_action( 'woocommerce_before_order_itemmeta', 'AAALRouteMapHelper\so_32457241_before_order_itemmeta', 10, 3 );
+function so_32457241_before_order_itemmeta( $item_id, $item, $_product ){
+    if($item->get_meta('From Coordinate') != "" && $item->get_meta('To Coordinate') != ""){
+        echo "<br/><br/><a href=\"https://www.google.co.ls/maps/dir/".$item->get_meta('From Coordinate')."/".$item->get_meta('To Coordinate')."/\">View Client Route in Google Map</a>";
+    }
+    // echo '<pre>';
+    // echo ($item->get_meta('From Coordinate')) == "";
+    // echo '</pre>';
+}

@@ -133,7 +133,7 @@ span.location-type {
       document.getElementById('mapid').style.cursor='default';
       
       var marker1 = [<?php echo esc_html($_REQUEST['from_coordinate']); ?>]
-      var marker2  = [<?php echo esc_html($_REQUEST['to_coordinates']); ?>];
+      var marker2  = [<?php echo esc_html($_REQUEST['to_coordinate']); ?>];
 
       // marker 1
       const param_from = "<?php echo esc_html($_REQUEST['from_text']); ?>"
@@ -204,8 +204,8 @@ span.location-type {
 
               // to coordinates 
               var input4 = document.createElement('input');
-              input4.setAttribute('name', 'to_coordinates');
-              input4.setAttribute('value', "<?php echo addslashes($_REQUEST['to_coordinates']); ?>")
+              input4.setAttribute('name', 'to_coordinate');
+              input4.setAttribute('value', "<?php echo addslashes($_REQUEST['to_coordinate']); ?>")
 
 
               // distance

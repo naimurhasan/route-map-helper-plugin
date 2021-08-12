@@ -144,7 +144,7 @@ button.btn.btn-info {    background-color: #ffca09; border: 0;  padding: 5px 25p
 
         // to coordinates 
         var input4 = document.createElement('input');
-        input4.setAttribute('name', 'to_coordinates');
+        input4.setAttribute('name', 'to_coordinate');
         input4.setAttribute('value', [23.807370008011716, 90.36383363261177])
 
 
